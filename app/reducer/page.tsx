@@ -32,23 +32,23 @@ export default function Counter() {
     )
 }
 
-function getArticle() {
-    let articles
-    const apikey = '58d4860ae2be054239c3f8c483215217';
-    const url = 'https://gnews.io/api/v4/search?q=psychology&lang=en&country=us&max=10&apikey=' + apikey;
+// function getArticle() {
+//     let articles
+//     const apikey = '58d4860ae2be054239c3f8c483215217';
+//     const url = 'https://gnews.io/api/v4/search?q=psychology&lang=en&country=us&max=10&apikey=' + apikey;
 
-    fetch(url)
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(data) {
-        console.log('then in second then')
-        articles = data.articles;
-        console.log(articles)
-        for (let i = 0; i < articles.length; i++) {
-            console.log("Title: " + articles[i]['title']);
-            console.log("Description: " + articles[i]['description']);
-            break;
-        }
-    });
-}
+//     fetch(url)
+//     .then(function(response) {
+//         return response.json();
+//     })
+//     .then(function(data) {
+//         console.log('then in second then')
+//         articles = data.articles;
+//         console.log(articles)
+//         for (let i = 0; i < articles.length; i++) {
+//             console.log("Title: " + articles[i]['title']);
+//             console.log("Description: " + articles[i]['description']);
+//             break;
+//         }
+//     });
+// }
