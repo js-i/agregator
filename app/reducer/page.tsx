@@ -34,7 +34,7 @@ export default function Counter() {
 
 // function getArticle() {
 //     let articles
-//     const apikey = '58d4860ae2be054239c3f8c483215217';
+//    
 //     const url = 'https://gnews.io/api/v4/search?q=psychology&lang=en&country=us&max=10&apikey=' + apikey;
 
 //     fetch(url)
