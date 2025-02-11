@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+// import { getData } from '../lib/data';
+// import { Card } from '../components/card';
+import CardWrapper from '../components/cardWrapper';
+import Search from '../components/search';
 
-export default function Home() {
+export default async function Page(props: { searchParams?: Promise<{query?: string, page?: string}>}) {
+  // const { articles } = await getData()
+  // console.log(typeof(articles), 'this is article obj')
+  // if (!Array.isArray(articles)) {
+  //   return <div>Error: Data is not an array</div>;
+  // }
+
+  const searchParams = await props.searchParams
+  const query = searchParams?.query || ''
+  const currentPage = Number(searchParams?.page) || 1
 
   return (
     <div className="bg-[#f9f5f0] text-gray-900 font-inter">
       <header className="bg-white shadow-md px-6 py-2 sticky top-0 z-10">
         <div className="container mx-auto flex gap-3 justify-between items-center">
           <h1 className="hidden md:block text-2xl font-bold text-[#3f3e39f8]">Psychotherapy News</h1>
-          <input type="text" placeholder="Search..." className="border p-3 rounded-lg w-1/3 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#b29889]" />
+          <Search placeholder='Поиск...'/>
           <nav>
             <ul className="flex space-x-6">
               <li><a href="#" className="text-[#7a6b64] hover:text-[#5a4a42] font-medium">Home</a></li>
@@ -23,25 +36,9 @@ export default function Home() {
         <section className="md:w-2/3">
           <h2 className="text-3xl font-semibold mb-6 text-[#5a4a42]">Latest News</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="md:col-span-2 bg-white p-5 shadow-lg rounded-xl transition-transform transform hover:scale-105">
-              <img src="https://via.placeholder.com/300" alt="News" className="w-full h-48 object-cover rounded-lg" />
-              <h3 className="text-xl font-semibold mt-4 text-[#5a4a42]">Article Title</h3>
-              <p className="text-[#7a6b64] text-sm mt-2">Short description of the article...</p>
-              <a href="#" className="text-[#b29889] font-medium mt-3 inline-block">Read more →</a>
-              
-            </div>
-            <div className="bg-white p-5 shadow-lg rounded-xl transition-transform transform hover:scale-105">
-              <img src="https://via.placeholder.com/300" alt="News" className="w-full h-48 object-cover rounded-lg" />
-              <h3 className="text-xl font-semibold mt-4 text-[#5a4a42]">Article Title</h3>
-              <p className="text-[#7a6b64] text-sm mt-2">Short description of the article...</p>
-              <a href="#" className="text-[#b29889] font-medium mt-3 inline-block">Read more →</a>
-            </div>
-            <div className="bg-white p-5 shadow-lg rounded-xl transition-transform transform hover:scale-105">
-              <img src="https://via.placeholder.com/300" alt="News" className="w-full h-48 object-cover rounded-lg" />
-              <h3 className="text-xl font-semibold mt-4 text-[#5a4a42]">Article Title</h3>
-              <p className="text-[#7a6b64] text-sm mt-2">Short description of the article...</p>
-              <a href="#" className="text-[#b29889] font-medium mt-3 inline-block">Read more →</a>
-            </div>
+            <Suspense key={query + currentPage} fallback={'fallback'}>
+              <CardWrapper query={query}/>
+            </Suspense>
           </div>
         </section>
         
