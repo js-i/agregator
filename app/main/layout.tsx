@@ -7,7 +7,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Counter counterId="first"/>
           <Counter counterId="second"/>
           <Counter counterId="third"/>
-          <Counter counterId="first"/>
         </div>
         <div className="flex-grow md:overflow-y-auto">{children}</div>
       </div>

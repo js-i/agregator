@@ -1,6 +1,5 @@
 import {configureStore } from "@reduxjs/toolkit";
 
-
 export type CounterState = {
     counter: number
 }
@@ -24,6 +23,7 @@ export type DecrementAction = {
         counterId: CounterId
     }
 }
+
 export type Action = IncrementAction | DecrementAction;
 const initialCounterState: CounterState = { counter: 0 }
 
