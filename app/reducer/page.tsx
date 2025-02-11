@@ -1,9 +1,10 @@
 "use client"
 import { useEffect, useReducer } from "react";
-import { CounterId, DecrementAction, IncrementAction, store } from "../store";
+import { CounterId, DecrementAction, IncrementAction, store } from "../lib/store";
 
 
 export default function Counter({ counterId } : { counterId: CounterId}) {    
+    console.log(counterId)
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
     useEffect(() => {
         const unsubscribe = store.subscribe(() => {

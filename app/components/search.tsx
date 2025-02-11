@@ -7,7 +7,7 @@ export default function Search({ placeholder='Search... ' }: { placeholder: stri
     const { replace } = useRouter()
 
     function handleChange(term: string) {
-        console.log(term)
+        // console.log(term)
         const params = new URLSearchParams(searchParams)
         if (term) {
             params.set('query', term)
