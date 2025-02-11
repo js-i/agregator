@@ -17,14 +17,12 @@ export async function getData(): Promise<TempArticles> {
     // const url = 'https://gnews.io/api/v4/search?q=psychology&lang=ru&country=ru&max=10&apikey=' + apikey;
 
     // const resp = await fetch(url)    
-    // console.log('fetch done', resp)
     // const data = await resp.json()
-    // console.log('fetch done', data)
     const tempArticles: TempArticles = {}
     await new Promise<void>((resolve) => setTimeout(() => {
         tempArticles.articles = articles
         resolve()
-    }, 3000))
+    }, 2000))
     console.log('timeout is ended')
     return tempArticles
 }
