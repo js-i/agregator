@@ -1,6 +1,8 @@
-// import { apikey } from "@/.env/api";
+import { apikey } from "@/.env/api";
+import crypto from 'crypto'
+
 export type Article = {
-    id: number,
+    id?: string,
     title: string;
     description: string;
     content: string;
@@ -13,9 +15,23 @@ export type TempArticles = {
     articles?: Article[]
 }
 
+function generateId(url: string) {
+    return crypto.createHash('md5').update(url).digest('hex');
+}
+
+export async function getDataAPI(): Promise<TempArticles> {
+    const url = 'https://gnews.io/api/v4/search?q=psychology&lang=ru&country=ru&max=10&apikey=' + apikey;
+    const resp = await fetch(url)    
+    const data = await resp.json()
+    const articlesWithId: Article[] = data.articles.map((article : Article) => {
+        return {...article, id: generateId(article.url)}
+    })
+    return { articles: articlesWithId }
+}
+
+
 export async function getData(): Promise<TempArticles> {
-   
-    // const url = 'https://gnews.io/api/v4/search?q=psychology&lang=ru&country=ru&max=10&apikey=' + apikey;
+    // const url = 'https://gnews.io/api/v4/search?q=medicine&lang=ru&country=ru&max=10&apikey=' + apikey;
 
     // const resp = await fetch(url)    
     // const data = await resp.json()
@@ -23,20 +39,18 @@ export async function getData(): Promise<TempArticles> {
     await new Promise<void>((resolve) => setTimeout(() => {
         tempArticles.articles = articles
         resolve()
-    }, 2000))
+    }, 0))
     // console.log(data, 'timeout is ended')
     return tempArticles
 }
  
-export async function getArticle(id: number) : Promise<Article> {
-    const res = articles.filter(art => art.id == id)   
-
-    return res[0] 
+export async function getArticle(id: string): Promise<Article | undefined> {
+    const res = (await getDataAPI()).articles?.find(art => art.id == id)   
+    return res 
 }
 
 const articles = [
     {
-      id: 1,  
       title: 'Ученые рассказали об опасности одиночества для сердца',
       description: 'Одиночество негативно влияет на сердечно-сосудистую систему. К такому выводу пришли ученые из Тяньцзиньского университета в КНР, результаты исследования опубликованы в журнале Biological Psychology (BioPsy)',
       content: 'BioPsy: сердце и сосуды хуже переносят стрессовые ситуации из-за одиночества\nОдиночество негативно влияет на сердечно-сосудистую систему. К такому выводу пришли ученые из Тяньцзиньского университета в КНР, результаты исследования опубликованы в журна... [877 chars]',
@@ -46,7 +60,6 @@ const articles = [
 
     },
     {
-        id: 2,  
       title: 'Мужчины назвали скрытые причины своих измен',
       description: 'Психолог Джеффри Бернстайн рассказал, что мужчины называют причинами своих измен. В колонке для Psychology Today эксперт поделился историями двух своих клиентов, которые были неверны женам',
       content: 'Психолог Джеффри Бернстайн рассказал, что мужчины называют причинами своих измен. В колонке для Psychology Today эксперт поделился историями двух своих клиентов, которые были неверны женам.\nПо словам Бернстайна, один из его клиентов, мужчина по имени... [1220 chars]',
@@ -56,7 +69,6 @@ const articles = [
 
     },
     {
-        id: 3,  
       title: 'Ученые назвали признак, объединяющий одиноких людей',
       description: 'Ученые из Колумбийского и Стэнфордского университетов США пришли к выводу, что у одиноких людей формируется своеобразное восприятие мира. Исследование опубликовали в журнале Communications Psychology .',
       content: 'Ученые из Колумбийского и Стэнфордского университетов США пришли к выводу, что у одиноких людей формируется своеобразное восприятие мира. Исследование опубликовали в журнале Communications Psychology.\nВ научном эксперименте приняли участие более 1000... [760 chars]',
@@ -66,7 +78,6 @@ const articles = [
 
     },
     {
-        id: 4,  
       title: 'Ученые назвали признак, объединяющий одиноких людей',
       description: 'Исследование, опубликованное в журнале Communications Psychology, показало, что одиночество не только влияет на эмоциональное состояние, но и изменяет мышление и речь. Ученые обнаружили у одиноких людей уникальные нейронные и языковые реакции на культурные феномены и известных личностей, нарушая культурный консенсус.',
       content: 'Исследование, опубликованное в журнале Communications Psychology, показало, что одиночество не только влияет на эмоциональное состояние, но и изменяет мышление и речь. Ученые обнаружили у одиноких людей уникальные нейронные и языковые реакции на куль... [1105 chars]',
@@ -75,7 +86,7 @@ const articles = [
       publishedAt: '2024-12-01T23:02:19Z',
 
     },
-    {id: 5,  
+    {
       title: 'Назван способ оживить сексуальные отношения',
       description: 'Сексолог, психотерапевт Кейтлин Кантор рассказала, что партнеры часто теряют интерес к сексу со временем, и с годами интимная близость становится чрезвычайно редкой. В авторской колонке для Psychology Today эксперт назвала способ оживить сексуальную жизнь',
       content: 'Сексолог, психотерапевт Кейтлин Кантор рассказала, что партнеры часто теряют интерес к сексу со временем, и с годами интимная близость становится чрезвычайно редкой. В авторской колонке для Psychology Today эксперт назвала способ оживить сексуальную ... [1285 chars]',
@@ -84,7 +95,7 @@ const articles = [
       publishedAt: '2024-10-13T21:00:00Z',
   
     },
-    {id: 6,  
+    {
       title: 'Пожилые люди чаще идут на необдуманные траты, выяснили ученые',
       description: 'Британские ученые из Бирмингемского и Оксфордского университетов узнали, что пожилые люди более склонны принимать импульсивные финансовые решения по сравнению с молодыми людьми. Исследование опубликовано в научном журнале Communications Psychology (CommsPsy).',
       content: 'Британские ученые из Бирмингемского и Оксфордского университетов узнали, что пожилые люди более склонны принимать импульсивные финансовые решения по сравнению с молодыми людьми. Исследование опубликовано в научном журнале Communications Psychology (C... [1406 chars]',
@@ -93,7 +104,7 @@ const articles = [
       publishedAt: '2024-09-23T15:23:56Z',
 
     },
-    {id: 7,  
+    {
       title: 'Ученые определили точку невозврата при разрыве отношений',
       description: 'Немецкие психологи из Бернского университета и Университета Майнца определили критический показатель, после достижения которого пары расстаются. Исследование опубликовано в научном  журнале Journal of Personality and Social Psychology (JPSP).',
       content: 'Немецкие психологи из Бернского университета и Университета Майнца определили критический показатель, после достижения которого пары расстаются. Исследование опубликовано в научном журнале Journal of Personality and Social Psychology (JPSP) Специали... [1764 chars]',
@@ -102,7 +113,7 @@ const articles = [
       publishedAt: '2024-09-11T22:04:42Z',
 
     },
-    {id: 8,  
+    {
       title: 'Ученые выяснили, что шанс найти счастье в отношениях или без них зависит от типа личности',
       description: 'Канадские ученые из Университета Торонто изучили взаимосвязь между счастьем человека и типом его личности как в отношениях, так и в одиночестве. Исследование опубликовано в научном журнале Society for Personality and Social Psychology (SPSP).',
       content: 'Канадские ученые из Университета Торонто изучили взаимосвязь между счастьем человека и типом его личности как в отношениях, так и в одиночестве. Исследование опубликовано в научном журнале Society for Personality and Social Psychology (SPSP).\n',
@@ -111,7 +122,7 @@ const articles = [
       publishedAt: '2024-04-11T00:21:21Z',
     },
     {
-        id: 8,  
+
       title: 'Ученые назвали причину трудностей при изучении сразу нескольких иностранных языков',
       description: 'Нидерландские ученые из Института психолингвистики Макса Планка выяснили, что люди могут столкнуться с трудностями при одновременном изучении нескольких иностранных языков. Исследование опубликовано в научном журнале Quarterly Journal of Experimental Psychology (QJEP).',
       content: 'Нидерландские ученые из Института психолингвистики Макса Планка выяснили, что люди могут столкнуться с трудностями при одновременном изучении нескольких иностранных языков. Исследование опубликовано в научном журнале Quarterly Journal of Experimental... [1271 chars]',
@@ -119,13 +130,12 @@ const articles = [
       image: 'https://img.gazeta.ru/files3/801/16099801/RIA_6162830-pic_32ratio_900x600-900x600-13688.jpg',
       publishedAt: '2024-04-02T16:58:00Z',
     },
-    {id: 9,  
+    {
       title: 'Психологи выяснили, что соцсеть X Илона Маска делает людей нервными и несчастными',
       description: 'Канадские ученые из Университета Торонто изучили влияние социальной сети X (ранее — Twitter) бизнесмена Илона Маска на психику пользователей. Исследование опубликовано в научном журнале  Communications Psychology (CommPsy).',
       content: 'Канадские ученые из Университета Торонто изучили влияние социальной сети X (ранее — Twitter) бизнесмена Илона Маска на психику пользователей. Исследование опубликовано в научном журнале Communications Psychology (CommPsy).\n',
       url: 'https://www.gazeta.ru/science/news/2024/02/29/22448378.shtml',
       image: 'https://img.gazeta.ru/files3/588/17321588/F1yPk5VXoAA3rGZ-pic_32ratio_900x600-900x600-99890.jpg',
       publishedAt: '2024-02-29T14:15:16Z',
-
     }
   ]
