@@ -30,7 +30,7 @@ export function Card({title, description, image, id}: CardProps): React.ReactEle
                     {description}
                 </p>         
             }
-            <Link href={`/${id}`} title={title} className="text-[#b29889] mb-3 font-medium inline-block">Read more →</Link>
+            <Link href={`/${id}`} title={title} className="text-[#b29889] mb-3 font-medium inline-block">Читать далее →</Link>
         </div>
     )
 }

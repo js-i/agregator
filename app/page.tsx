@@ -31,10 +31,10 @@ export default async function MainPage(props: { searchParams?: Promise<{query?: 
         </div>
       </header>
       
-      <main className="container mx-auto mt-10 px-6 flex flex-col grow h-full gap-8 md:flex-row">
+      <main className="container mx-auto mt-6 px-6 flex flex-col grow h-full gap-8 md:flex-row">
         {/* News List */}
         <section className="md:w-2/3">
-          <h2 className="text-3xl font-semibold mb-6 text-[#5a4a42]">Latest News</h2>
+          <h2 className="text-3xl font-semibold mb-3 text-[#5a4a42]">Latest News</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Suspense key={query + currentPage} fallback={'fallback'}>
               <CardWrapper query={query}/>

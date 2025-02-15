@@ -19,7 +19,9 @@ export default async function ArticlePage({ params } : {params: Promise<{ articl
         <article className="flex flex-col bg-white p-8 shadow-lg rounded-xl">
           <h2 className="text-4xl font-bold text-[#5a4a42] mb-4">Article not found</h2>
           <p className="text-[#7a6b64] text-sm mb-6">The article you are looking for does not exist or an error occurred while fetching it.</p>
-          <b className="self-end"><Link href={'/'}>Назад</Link></b>
+          <b className="self-end">
+            <Link href={'/'}>Назад</Link>
+          </b>
         </article>
       </main>
   );
@@ -38,7 +40,7 @@ export default async function ArticlePage({ params } : {params: Promise<{ articl
           <Link href={art.url} className="text-[#5a4a42] text-sm leading-relaxed mt-4 truncate w-40">
             {art.url}
           </Link>
-          <b className="self-end"><Link href={'/'}>Назад</Link></b>
+          <button className="self-end text-[#5a4a42] border outline px-3 rounded-lg "><Link href={'/'}>Назад</Link></button>
         </article>
       </main>
   );
