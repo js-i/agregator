@@ -3,7 +3,7 @@ import {  getDataAPI, TempArticles } from '../lib/data'
 
 export default async function CardWrapper({  query }: { query: string}) {
     const { articles } : TempArticles = await getDataAPI()
-    // console.log(articles)
+    console.log(articles)
     const filtArt = articles?.filter(art => art.title.includes(query) || art.description.includes(query))
     if (!filtArt || filtArt.length == 0) {
         return ('ничего не найдено')
