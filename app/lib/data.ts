@@ -29,6 +29,9 @@ export async function getDataAPI(): Promise<TempArticles> {
     let data: TempArticles = { articles: [] };
     try {
         const resp = await fetch(url)    
+        if (!resp.ok) {
+            throw new Error(`HTTP error! status: ${resp.status}`);
+        }
         data = await resp.json()
     } catch (error) {
         console.error('fecth in data ts error', error)
