@@ -8,7 +8,25 @@ const nextConfig: NextConfig = {
 
 module.exports = {
   images: {
-    domains: ['icdn.lenta.ru', 'example.com', 'img.gazeta.ru', 'static.mk.ru'], 
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.lenta.ru',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.gazeta.ru',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.mk.ru',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.icdn.ru',
+      },
+      // Добавьте другие домены по мере необходимости
+    ],
   },
 }
 

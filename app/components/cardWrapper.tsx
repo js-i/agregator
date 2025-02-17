@@ -1,23 +1,37 @@
+"use client"
 import { Card } from '@/app/components/card'
-import {  getDataAPI, TempArticles } from '../lib/data'
+import {  Article, getDataAPI, TempArticles } from '../lib/data'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation';
 
-export default async function CardWrapper({  query }: { query: string}) {
-    const { articles } : TempArticles = await getDataAPI()
-    console.log('Fetched articles:', articles)
-    let filtArt
-    if (query) {
-        filtArt = articles?.filter(art => art.title.includes(query) || art.description.includes(query))
-    } else {
-        filtArt = [...(articles || [])]
-    }
+export default function CardWrapper() {
+    const searchParams = useSearchParams();
+    const query = searchParams.get('query')?.toString().toLowerCase() || '';
+
+    const [stateArticles, setArticles] = useState<Article[]>([])
+
+    useEffect(() => {
+        async function getData() {
+            const { articles } : TempArticles = await getDataAPI()
+            setArticles(articles || [])
+        }
+        getData()
+    }, [])
     
-    if (!filtArt || filtArt.length == 0) {
-        return ('ничего не найдено')
+    
+    // console.log('Fetched articles:', query)
+    const filtArt = stateArticles.filter(art => 
+        art.title.toLowerCase().includes(query) || 
+        art.description.toLowerCase().includes(query)
+    );
+
+    if (filtArt.length === 0) {
+        return <p className="text-gray-500">Ничего не найдено</p>;
     }
     
     return (
         <>
-            {filtArt?.map((art, i) => <Card key={i} title={art.title} description={art.description} image={art.image} id={art.id} content={art.content}/>)}
+            {filtArt?.map((art) => <Card key={art.id} title={art.title} description={art.description} image={art.image} id={art.id} content={art.content}/>)}
         </>
     )
 }
