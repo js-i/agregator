@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Aside from "./components/aside";
+import { UserContextProvider } from "./context/user/provider";
 
 export const metadata: Metadata = {
   title: "Psychoterapy news",
@@ -22,7 +23,9 @@ export default function RootLayout({
           <Header />
             <main className="container mx-auto mt-6 px-6 flex flex-col grow h-full gap-8 md:flex-row">
               <section className="md:w-3/4">
-                {children}
+                  <UserContextProvider>
+                    {children}
+                  </UserContextProvider>
               </section>
               <Aside />
             </main>

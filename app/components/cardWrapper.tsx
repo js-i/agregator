@@ -3,8 +3,11 @@ import { Card } from '@/app/components/card'
 import {  Article, getDataAPI, TempArticles } from '../lib/data'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation';
+import { useUserContext } from '../context/user/useUserContext';
 
 export default function CardWrapper() {
+    const dataContext = useUserContext()
+    console.log(dataContext, 'dataContext')
     const searchParams = useSearchParams();
     const query = searchParams.get('query')?.toString().toLowerCase() || '';
     const [stateArticles, setArticles] = useState<Article[] | undefined>([])
