@@ -1,7 +1,8 @@
 import React from 'react';
-import { getArticle, Article  } from '@/app/lib/data';
+import { getArticle, Article } from '@/app/lib/data';
 import Link from 'next/link';
 import Image from 'next/image';
+
 
 export default async function ArticlePage({ params } : {params: Promise<{ article: string }>}) {
   const article = (await params).article

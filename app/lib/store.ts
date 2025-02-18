@@ -25,6 +25,7 @@ export type DecrementAction = {
 }
 
 export type Action = IncrementAction | DecrementAction;
+
 const initialCounterState: CounterState = { counter: 0 }
 
 const initialState: State = {
@@ -68,3 +69,4 @@ export const store = configureStore({
     reducer: reducer
 })
 
+export type AppState = ReturnType<typeof store.getState>

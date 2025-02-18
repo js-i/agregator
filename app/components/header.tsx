@@ -1,5 +1,6 @@
 import Search from "./search"
 import { Suspense } from "react"
+import Link from "next/link"
 export default function Header() {
     return (
           <header className="bg-white shadow-md px-6 py-2 sticky top-0 z-10">
@@ -12,7 +13,7 @@ export default function Header() {
                 <ul className="flex space-x-6">
                   <li><a href="#" className="text-[#7a6b64] hover:text-[#5a4a42] font-medium">Home</a></li>
                   <li><a href="#" className="text-[#7a6b64] hover:text-[#5a4a42] font-medium">Categories</a></li>
-                  <li><a href="#" className="text-[#7a6b64] hover:text-[#5a4a42] font-medium">Trending</a></li>
+                  <li><Link href="/counter" className="text-[#7a6b64] hover:text-[#5a4a42] font-medium">Counter</Link></li>
                 </ul>
               </nav>
             </div>
