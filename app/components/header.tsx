@@ -11,9 +11,9 @@ export default function Header() {
               </Suspense>
               <nav>
                 <ul className="flex space-x-6">
-                  <li><a href="#" className="text-[#7a6b64] hover:text-[#5a4a42] font-medium">Home</a></li>
-                  <li><a href="#" className="text-[#7a6b64] hover:text-[#5a4a42] font-medium">Categories</a></li>
-                  <li><Link href="/counter" className="text-[#7a6b64] hover:text-[#5a4a42] font-medium">Counter</Link></li>
+                  <li><Link href="/" className="text-[#7a6b64] hover:text-[#5a4a42] font-medium">Home</Link></li>
+                  {/* <li><a href="/" className="text-[#7a6b64] hover:text-[#5a4a42] font-medium">Categories</a></li> */}
+                  {/* <li><Link href="/counter" className="text-[#7a6b64] hover:text-[#5a4a42] font-medium">Counter</Link></li> */}
                 </ul>
               </nav>
             </div>

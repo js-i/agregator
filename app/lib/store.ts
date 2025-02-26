@@ -1,72 +1,42 @@
-import { configureStore } from "@reduxjs/toolkit";
 
-export type CounterState = {
-    counter: number
-}
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { configureStore, createSelector} from "@reduxjs/toolkit";
+import { usersSlice, initialUsersList } from "../components/modules/users/users.slice";
+import { countersReducer } from "../components/modules/counters/counters.slice";
 
-export type CounterId = string;
-
-type State = {
-    counters: Record<CounterId, CounterState | undefined>
-};
-
-export type IncrementAction = {
-    type: 'increment',
-    payload: {
-        counterId: CounterId
-    }
-}
-
-export type DecrementAction = {
-    type: 'decrement',
-    payload: {
-        counterId: CounterId
-    }
-}
-
-export type Action = IncrementAction | DecrementAction;
-
-const initialCounterState: CounterState = { counter: 0 }
-
-const initialState: State = {
-    counters: {}
-}
-
-const reducer = (state = initialState, action: Action): State => {
-    switch (action.type) {
-        case "increment": {
-            const { counterId } = action.payload
-            const currentCounter = state.counters[counterId] ?? initialCounterState
-            return {
-                ...state,
-                counters: {
-                    ...state.counters, 
-                    [counterId]: {
-                        ...currentCounter,
-                        counter: currentCounter.counter + 1
-                    }
-                }
-            };}
-        case "decrement": {
-            const { counterId } = action.payload
-            const currentCounter = state.counters[counterId] ?? initialCounterState
-            return {
-                ...state,
-                counters: {
-                    ...state.counters,
-                    [counterId]: {
-                        ...currentCounter,
-                        counter: currentCounter.counter - 1
-                    }
-                }
-            }}
-        default:
-            return state;
-    }
-}
 
 export const store = configureStore({
-    reducer: reducer
+    reducer: {
+        counters: countersReducer,
+        [usersSlice.name]: usersSlice.reducer
+    }
 })
 
+store.dispatch(usersSlice.actions.store({ users: initialUsersList}));
+
 export type AppState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+
+export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;
+export const createAppSelector = createSelector.withTypes<AppState>()
+
+
+
+// const reducer = combineReducers({
+    //     users: usersReducer,
+    //     counters: countersReducer
+    // })
+
+// export const useAppStore = useStore.withTypes<typeof store>()
+
+
+// Хук для получения конкретного счетчика
+// export const useCounter = (counterId: CounterId) => {
+//     return useAppSelector((state) => state.counters[counterId] ?? { counter: 0 });
+// };
+
+// export type State = {
+//     counters: CountersState,
+//     users: UserState
+// };

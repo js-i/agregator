@@ -3,12 +3,13 @@ import crypto from 'crypto'
 
 export type Article = {
     id?: string,
-    title: string;
-    description: string;
-    content: string;
-    url: string;
-    image: string;
-    publishedAt: string;
+    title: string,
+    description: string,
+    content: string,
+    url: string,
+    image: string,
+    publishedAt: string,
+    liked?: boolean,
 };
 
 export type TempArticles = {
@@ -42,10 +43,11 @@ export async function getDataAPI(): Promise<TempArticles> {
         return { articles: [] };
     }
     
-    const articlesWithId: Article[] = data.articles.map((article : Article) => {
-        return {...article, id: generateId(article.url)}
+    const articlesUpdate: Article[] = data.articles.map((article : Article) => {
+        return {...article, id: generateId(article.url), liked: false}
     })
-    return { articles: articlesWithId }
+
+    return { articles: articlesUpdate }
 }
  
 export async function getArticle(id: string): Promise<Article | undefined> {
