@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import HeartIcon from "./heartIcon";
+
 interface CardProps {
     id?: string,
     title: string;
@@ -9,6 +11,7 @@ interface CardProps {
     image?: string;       // необязательный параметр
     publishedAt?: string; // необязательный параметр
     source?: string;      // необязательный параметр
+    liked?: boolean;
 }
 
 
@@ -30,7 +33,10 @@ export function Card({title, description, image, id}: CardProps): React.ReactEle
                     {description}
                 </p>         
             }
-            <Link href={`/${id}`} title={title} className="text-[#b29889] mb-3 font-medium inline-block">Читать далее →</Link>
+            <div className="flex mt-2">
+                <Link href={`/${id}`} title={title} className="text-[#b29889] mb-3 font-medium inline-block mr-auto">Читать далее →</Link>
+                <HeartIcon id={id} className=""/>
+            </div>
         </div>
     )
 }

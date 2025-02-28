@@ -1,4 +1,4 @@
-import { configureStore, createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+import { configureStore, createAsyncThunk, createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Article, getDataAPI } from './data' 
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
@@ -39,15 +39,28 @@ export const newsSlice = createSlice({
                 return ids.map(id => entities[id]).filter(art => {
                     return art.title.toLowerCase().includes(query)|| art.description.toLowerCase().includes(query)
                 })
-            }),
-        selectArticle: (state, id) => state.articles.entities[id],
+            }
+        ),
+        selectArticle: (state, id) => {
+            return state.articles.entities[id]
+        },
+        selectLike: (state, id) => {
+            console.log(id, state.articles.entities[id].liked, 'select LIKE')
+            return state.articles.entities[id].liked
+        },
+        selectLikedArticles: createSelector(
+            (state: newsState) => state.articles.entities ?? {},
+            (state: newsState) => state.articles.ids || [],
+            (entities, ids) => ids.map(id => entities[id]).filter(art =>
+                art.liked
+            )
+        )
+
     },
     reducers: {
-        liked: (state, action) => {
-            state.articles.entities[action.payload.id].liked = true  
-        },
-        unliked: (state, action) => {
-            state.articles.entities[action.payload.id].liked = false  
+        liked: (state, action: PayloadAction<{ id: string}>) => {
+            console.log(state.articles.entities[action.payload.id].liked, 'action LIKE')
+            state.articles.entities[action.payload.id].liked = !state.articles.entities[action.payload.id].liked  
         },
     },
     extraReducers: (builder) => {
